@@ -3,17 +3,26 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import "./App.css";
 
-import HomePage from "./pages/homepage/homepage.component";
-import ShopPage from "./pages/shop/shop.component";
-import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import CheckoutPage from "./pages/checkout/checkout.component";
-import ContactPage from "./pages/contact/contact-page.component";
-
 import Header from "./components/header/header.component";
+import Spinner from "./components/spinner/spinner.component";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 import CurrentUserContext from "./contexts/current-user/current-user.context";
+
+const HomePage = lazy(() => import("./pages/homepage/homepage.component"));
+
+const ShopPage = lazy(() => import("./pages/shop/shop.component"));
+
+const SignInAndSignUpPage = lazy(() =>
+  import("./pages/sign-in-and-sign-up/sign-in-and-sign-up.component")
+);
+
+const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
+
+const ContactPage = lazy(() =>
+  import("./pages/contact/contact-page.component")
+);
 
 class App extends React.Component {
   constructor() {
@@ -54,21 +63,23 @@ class App extends React.Component {
           <Header />
         </CurrentUserContext.Provider>
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route path="/contact" component={ContactPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              this.state.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
-          />
+          <Suspense fallback={<Spinner />}>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/shop" component={ShopPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
+            <Route path="/contact" component={ContactPage} />
+            <Route
+              exact
+              path="/signin"
+              render={() =>
+                this.state.currentUser ? (
+                  <Redirect to="/" />
+                ) : (
+                  <SignInAndSignUpPage />
+                )
+              }
+            />
+          </Suspense>
         </Switch>
       </div>
     );
