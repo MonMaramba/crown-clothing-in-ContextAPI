@@ -9,6 +9,12 @@
     height: 100%;
     width: 70px;
     padding: 25px;
+
+    @media screen and (max-width: 800px) {
+      position: relative;
+      left: -20px;
+      top: -15px;
+    }
   }
 
   .options {
