@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import FormInput from "../form-input/form-input";
-import CustomButton from "../custom-button/custom-button";
-import { auth, signInWithGoogle } from "../../firebase/firebase";
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
-import "./sign-in.scss";
+import "./sign-in.styles.scss";
 
 const SignIn = () => {
   // useState gives an array with 2 values, [property, method to update]
